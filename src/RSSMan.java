@@ -17,10 +17,6 @@ public class RSSMan {
         this.Listener();
     }
 
-    public void AddRss(String link, String name) {
-        this.conn.AddRSS(link, name);
-    }
-
     public void Listener() throws Exception {
         HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
         server.createContext("/v0.1/api/addrss/", new AddRSSHandler());

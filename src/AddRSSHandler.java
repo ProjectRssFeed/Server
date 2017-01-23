@@ -5,10 +5,19 @@
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class AddRSSHandler implements HttpHandler {
-    public void handle(HttpExchange he) throws IOException {
-
+    public void handle(HttpExchange t) throws IOException {
+        InputStreamReader isr =  new InputStreamReader(t.getRequestBody(),"utf-8");
+        BufferedReader br = new BufferedReader(isr);
+        int b;
+        StringBuilder buf = new StringBuilder();
+        while ((b = br.read()) != -1) {
+            buf.append((char) b);
+        }
+        System.out.println(buf);
     }
 }
