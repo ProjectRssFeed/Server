@@ -1,6 +1,6 @@
 public class Main {
 
     public static void main(String[] args) {
-        SQLConnect conn = new SQLConnect();
+        RSSMan rss = new RSSMan();
     }
 }
