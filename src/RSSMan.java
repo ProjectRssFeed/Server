@@ -5,6 +5,10 @@ public class RSSMan {
     private  SQLConnect conn;
 
     public RSSMan() {
-        SQLConnect conn = new SQLConnect();
+        this.conn = new SQLConnect();
+    }
+
+    public void AddRss(String link, String name) {
+        this.conn.AddRSS(link, name);
     }
 }
