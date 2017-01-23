@@ -19,9 +19,9 @@ public class RSSMan {
 
     public void Listener() throws Exception {
         HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
-        server.createContext("/v0.1/api/addrss/", new AddRSSHandler());
-        server.createContext("/v0.1/api/getrss/", new GetRSSHandler());
-        server.createContext("/v0.1/api/delete/", new DeleteRSSHandler());
+        server.createContext("/v0.1/api/addrss/", new AddRSSHandler(this.conn));
+        server.createContext("/v0.1/api/getrss/", new GetRSSHandler(this.conn));
+        server.createContext("/v0.1/api/delete/", new DeleteRSSHandler(this.conn));
         server.setExecutor(null); // creates a default executor
         server.start();
     }

@@ -10,6 +10,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class AddRSSHandler implements HttpHandler {
+    private SQLConnect conn;
+
+    public AddRSSHandler(SQLConnect conn) {
+        this.conn = conn;
+    }
+
     public void handle(HttpExchange t) throws IOException {
         InputStreamReader isr =  new InputStreamReader(t.getRequestBody(),"utf-8");
         BufferedReader br = new BufferedReader(isr);
