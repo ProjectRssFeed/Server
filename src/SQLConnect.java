@@ -24,8 +24,8 @@ public class SQLConnect {
         }
     }
 
-    public void AddRSS(String link, String name) {
-        String query = "INSERT INTO rsslink (link, name) VALUES('"+link+"', '"+name+"');";
+    public void AddRSS(String link) {
+        String query = "INSERT INTO rsslink (link) VALUES('"+link+"');";
         try {
             st.executeUpdate(query);
         } catch(Exception ex) {
