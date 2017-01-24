@@ -1,5 +1,5 @@
 /**
- * Created by Spoony on 24/01/2017.
+ * Created by Spoony on 25/01/2017.
  */
 
 import com.sun.net.httpserver.HttpHandler;
@@ -9,10 +9,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class AddRSSHandler implements HttpHandler {
+public class RSSHandler implements HttpHandler {
     private SQLConnect conn;
 
-    public AddRSSHandler(SQLConnect conn) {
+    public RSSHandler(SQLConnect conn) {
         this.conn = conn;
     }
 
@@ -25,5 +25,6 @@ public class AddRSSHandler implements HttpHandler {
             buf.append((char) b);
         }
         System.out.println(buf);
+
     }
 }
