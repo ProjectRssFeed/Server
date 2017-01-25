@@ -17,17 +17,19 @@ public class SQLConnect {
     public SQLConnect() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306", this.user, this.password);
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306?useSSL=false", this.user, this.password);
             st = conn.createStatement();
             st.executeUpdate("CREATE DATABASE "+this.dbName);
         } catch(SQLException sqlex) {
             if (sqlex.getErrorCode() == 1007) {
                 try {
-                    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+this.dbName, this.user, this.password);
+                    conn.close();
+                    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+this.dbName+"?useSSL=false", this.user, this.password);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
                 try {
+                    st.close();
                     st = conn.createStatement();
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -37,6 +39,16 @@ public class SQLConnect {
             }
         } catch(Exception ex) {
             System.out.println("Error:"+ex);
+        }
+        this.initTables();
+    }
+
+    private void initTables() {
+        String query = "CREATE TABLE IF NOT EXISTS feed (id INT NOT NULL AUTO_INCREMENT, title VARCHAR(64), description VARCHAR(255), link VARCHAR(64), PRIMARY KEY (id))";
+        try {
+            this.st.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
