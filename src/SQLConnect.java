@@ -20,6 +20,10 @@ public class SQLConnect {
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306?useSSL=false", this.user, this.password);
             st = conn.createStatement();
             st.executeUpdate("CREATE DATABASE "+this.dbName);
+            conn.close();
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+this.dbName+"?useSSL=false", this.user, this.password);
+            st.close();
+            st = conn.createStatement();
         } catch(SQLException sqlex) {
             if (sqlex.getErrorCode() == 1007) {
                 try {

@@ -9,37 +9,49 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 import static java.lang.System.*;
 
 public class RSSHandler implements HttpHandler {
     private SQLConnect conn;
+    private HttpExchange t;
 
     public RSSHandler(SQLConnect conn) {
         this.conn = conn;
     }
 
     public void handle(HttpExchange t) throws IOException {
+        this.t = t;
         switch (t.getRequestMethod()) {
             case "POST":
-                parseJSON(t);
+                parseJSON();
                 break;
             case "GET":
                 break;
             case "PUT":
-                parseJSON(t);
+                parseJSON();
                 break;
             case "DELETE":
                 break;
         }
-
+        parseRSS(null);
     }
 
-    private JSONObject parseJSON(HttpExchange t) throws IOException {
-        InputStreamReader isr = new InputStreamReader(t.getRequestBody(), "utf-8");
+    private void parseRSS(JSONObject obj) {
+        String message = "hello world";
+        try {
+            t.sendResponseHeaders(200, message.length());
+            OutputStream out = this.t.getResponseBody();
+            out.write(message.getBytes());
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private JSONObject parseJSON() throws IOException {
+        InputStreamReader isr = new InputStreamReader(this.t.getRequestBody(), "utf-8");
         BufferedReader br = new BufferedReader(isr);
         int b;
         StringBuilder buf = new StringBuilder();

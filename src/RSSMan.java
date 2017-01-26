@@ -18,7 +18,7 @@ public class RSSMan {
     }
 
     public void Listener() throws Exception {
-        HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
+        HttpServer server = HttpServer.create(new InetSocketAddress(8443), 0);
         server.createContext("/v0.1/rss/", new RSSHandler(this.conn));
         server.setExecutor(null);
         server.start();
