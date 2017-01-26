@@ -35,10 +35,10 @@ public class RSSHandler implements HttpHandler {
             case "DELETE":
                 break;
         }
-        parseRSS(null);
+        this.sendResponse();
     }
 
-    private void parseRSS(JSONObject obj) {
+    private void sendResponse() {
         String message = "hello world";
         try {
             t.sendResponseHeaders(200, message.length());
@@ -48,6 +48,10 @@ public class RSSHandler implements HttpHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void parseRSS(JSONObject obj) {
+
     }
 
     private JSONObject parseJSON() throws IOException {
