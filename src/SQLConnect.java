@@ -48,7 +48,7 @@ public class SQLConnect {
     }
 
     private void initTables() {
-        String query = "CREATE TABLE IF NOT EXISTS feed (id INT NOT NULL AUTO_INCREMENT, title VARCHAR(64), description VARCHAR(255), link VARCHAR(64), PRIMARY KEY (id))";
+        String query = "CREATE TABLE IF NOT EXISTS feed (id INT NOT NULL AUTO_INCREMENT, title VARCHAR(64), description VARCHAR(255), link VARCHAR(255), PRIMARY KEY (id))";
         try {
             this.st.execute(query);
         } catch (SQLException e) {
@@ -56,8 +56,8 @@ public class SQLConnect {
         }
     }
 
-    public void AddRSS(String link) {
-        String query = "INSERT INTO rsslink (link) VALUES('"+link+"');";
+    public void AddRSS(String link, String name, String description) {
+        String query = "INSERT INTO feed (link, title, description) VALUES('"+link+"', '"+name+"', '"+description+"');";
         try {
             st.executeUpdate(query);
         } catch(Exception ex) {

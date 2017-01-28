@@ -14,18 +14,21 @@ import java.io.*;
 import static java.lang.System.*;
 
 public class RSSHandler implements HttpHandler {
+    private Actions act;
     private SQLConnect conn;
     private HttpExchange t;
 
-    public RSSHandler(SQLConnect conn) {
-        this.conn = conn;
+    public RSSHandler() {
+        this.act = new Actions();
+        this.act.conn = new SQLConnect();
     }
 
     public void handle(HttpExchange t) throws IOException {
         this.t = t;
         switch (t.getRequestMethod()) {
             case "POST":
-                parseJSON();
+                this.act.AddLink(parseJSON());
+                this.sendResponse("", 200);
                 break;
             case "GET":
                 break;
@@ -35,15 +38,13 @@ public class RSSHandler implements HttpHandler {
             case "DELETE":
                 break;
         }
-        this.sendResponse();
     }
 
-    private void sendResponse() {
-        String message = "hello world";
+    private void sendResponse(String msg, int code) {
         try {
-            t.sendResponseHeaders(200, message.length());
+            t.sendResponseHeaders(code, msg.length());
             OutputStream out = this.t.getResponseBody();
-            out.write(message.getBytes());
+            out.write(msg.getBytes());
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,12 +66,7 @@ public class RSSHandler implements HttpHandler {
         JSONObject obj = null;
         try {
             obj = new JSONObject(buf.toString());
-            try {
-                System.out.println(obj.getString("Hello"));
                 return obj;
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
