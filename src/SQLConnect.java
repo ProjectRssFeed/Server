@@ -64,4 +64,13 @@ public class SQLConnect {
             System.out.println("Error: "+ex);
         }
     }
+
+    public void DeleteRSS(String id) {
+        String query = "DELETE FROM feed WHERE id = "+id+"";
+        try {
+            st.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

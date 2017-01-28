@@ -15,11 +15,9 @@ import static java.lang.System.*;
 
 public class RSSHandler implements HttpHandler {
     private Actions act;
-    private SQLConnect conn;
     private HttpExchange t;
 
     public RSSHandler() {
-        this.act = new Actions();
         this.act.conn = new SQLConnect();
     }
 
@@ -32,10 +30,12 @@ public class RSSHandler implements HttpHandler {
                 break;
             case "GET":
                 break;
-            case "PUT":
-                parseJSON();
-                break;
             case "DELETE":
+                String[] split = t.getRequestURI().getPath().split("/");
+                if (split.length >= 3) {
+                    this.act.conn.DeleteRSS(split[3]);
+                }
+                this.sendResponse("", 200);
                 break;
         }
     }
