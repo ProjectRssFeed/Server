@@ -2,7 +2,6 @@
  * Created by Spoony on 23/01/2017.
  */
 
-import java.lang.reflect.Executable;
 import java.sql.*;
 
 public class SQLConnect {
@@ -72,5 +71,19 @@ public class SQLConnect {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public String GetLink(String id) {
+        String query = "SELECT link FROM feed WHERE id = '"+id+"'";
+        try {
+            ResultSet res = st.executeQuery(query);
+            res.first();
+            String link = res.getString("link");
+            res.close();
+            return link;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

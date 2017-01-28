@@ -14,6 +14,10 @@ import java.net.URL;
 public class Actions {
     public SQLConnect conn;
 
+    public Actions() {
+        this.conn = new SQLConnect();
+    }
+
     public void AddLink(JSONObject obj) {
         try {
             String link = obj.getString("Link");
@@ -53,41 +57,60 @@ public class Actions {
         }
     }
 
-    public void GetLink(JSONObject obj) {
+    public void GetLink(String id) {
         try {
-            String link = obj.getString("Link");
+            String link = this.conn.GetLink(id);
             URL rssURL = new URL(link);
             BufferedReader in = new BufferedReader(new InputStreamReader(rssURL.openStream()));
             String descr = null;
             String title = null;
+            String sublink = null;
+            String res = "[";
             String line;
-            while ((line = in.readLine()) != null && (title == null || descr == null)) {
-                if (line.contains("<title>")) {
-                    title = line.substring(line.indexOf("<title>")+7);
-                    while (!title.contains("</title>")) {
-                        line = in.readLine();
-                        title += line;
+            while ((line = in.readLine()) != null) {
+
+                if (line.contains("<item>")) {
+                    if (res.length() > 1) {
+                    res += ",";
                     }
-                    title = title.substring(0, title.indexOf("</title>"));
-                }
-                if (line.contains("<description>")) {
-                    descr = line.substring(line.indexOf("<description>")+13);
-                    while (!descr.contains("</description")) {
+                    while (!line.contains("</item>")) {
+                        if (line.contains("<title>")) {
+                            title = line.substring(line.indexOf("<title>") + 7);
+                            while (!title.contains("</title>")) {
+                                line = in.readLine();
+                                title += line;
+                            }
+                            title = title.substring(0, title.indexOf("</title>"));
+                        }
+                        if (line.contains("<description>")) {
+                            descr = line.substring(line.indexOf("<description>") + 13);
+                            while (!descr.contains("</description")) {
+                                line = in.readLine();
+                                descr += line;
+                            }
+                            descr = descr.substring(0, descr.indexOf("</description>"));
+                        }
+                        if (line.contains("<link>")) {
+                            if (line.contains("<link>")) {
+                                sublink = line.substring(line.indexOf("<link>") + 6);
+                                while (!sublink.contains("</link>")) {
+                                    line = in.readLine();
+                                    sublink += line;
+                                }
+                                sublink = sublink.substring(0, sublink.indexOf("</link>"));
+                            }
+                        }
                         line = in.readLine();
-                        descr += line;
                     }
-                    descr = descr.substring(0, descr.indexOf("</description>"));
+                    res += "{\"Title\":\""+title+"\",\"Description\":\""+descr+"\",\"Link\":\""+link+"\"}";
                 }
-                System.out.println(descr);
             }
-            //System.out.println(link+" "+title+" "+descr);
-            this.conn.AddRSS(link, title, descr);
+            res += "]";
+            System.out.println(res);
             in.close();
-        } catch (JSONException e) {
+        } catch(MalformedURLException e){
             e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch(IOException e){
             e.printStackTrace();
         }
     }

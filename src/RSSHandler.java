@@ -18,7 +18,7 @@ public class RSSHandler implements HttpHandler {
     private HttpExchange t;
 
     public RSSHandler() {
-        this.act.conn = new SQLConnect();
+        this.act = new Actions();
     }
 
     public void handle(HttpExchange t) throws IOException {
@@ -29,6 +29,7 @@ public class RSSHandler implements HttpHandler {
                 this.sendResponse("", 200);
                 break;
             case "GET":
+                this.act.GetLink("2");
                 break;
             case "DELETE":
                 String[] split = t.getRequestURI().getPath().split("/");
