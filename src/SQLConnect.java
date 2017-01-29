@@ -27,7 +27,7 @@ public class SQLConnect {
             if (sqlex.getErrorCode() == 1007) {
                 try {
                     conn.close();
-                    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+this.dbName+"?useSSL=false", this.user, this.password);
+                    conn = DriverManager.getConnection("jdbc:mysql://localhost:6606/"+this.dbName+"?useSSL=false", this.user, this.password);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
