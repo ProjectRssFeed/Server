@@ -14,20 +14,21 @@ public class SQLConnect {
     private String password = "helloworld";
 
     public SQLConnect() {
+        String port = "6603";
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306?useSSL=false", this.user, this.password);
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:"+port+"?useSSL=false", this.user, this.password);
             st = conn.createStatement();
             st.executeUpdate("CREATE DATABASE "+this.dbName);
             conn.close();
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+this.dbName+"?useSSL=false", this.user, this.password);
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:"+port+"/"+this.dbName+"?useSSL=false", this.user, this.password);
             st.close();
             st = conn.createStatement();
         } catch(SQLException sqlex) {
             if (sqlex.getErrorCode() == 1007) {
                 try {
                     conn.close();
-                    conn = DriverManager.getConnection("jdbc:mysql://localhost:6606/"+this.dbName+"?useSSL=false", this.user, this.password);
+                    conn = DriverManager.getConnection("jdbc:mysql://localhost:"+port+"/"+this.dbName+"?useSSL=false", this.user, this.password);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
