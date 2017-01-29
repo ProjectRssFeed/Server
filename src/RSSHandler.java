@@ -23,17 +23,25 @@ public class RSSHandler implements HttpHandler {
 
     public void handle(HttpExchange t) throws IOException {
         this.t = t;
+        String[] split;
         switch (t.getRequestMethod()) {
             case "POST":
                 this.act.AddLink(parseJSON());
                 this.sendResponse("", 200);
                 break;
             case "GET":
-                this.act.GetLink("2");
+                split = t.getRequestURI().getPath().split("/");
+                String res;
+                if (split.length > 3) {
+                    res = this.act.conn.GetLink(split[3]);
+                } else {
+                    res = this.act.conn.Getfeeds();
+                }
+                this.sendResponse(res, 200);
                 break;
             case "DELETE":
-                String[] split = t.getRequestURI().getPath().split("/");
-                if (split.length >= 3) {
+                split = t.getRequestURI().getPath().split("/");
+                if (split.length > 3) {
                     this.act.conn.DeleteRSS(split[3]);
                 }
                 this.sendResponse("", 200);

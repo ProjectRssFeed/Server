@@ -86,4 +86,25 @@ public class SQLConnect {
         }
         return null;
     }
+
+    public String Getfeeds() {
+        String query = "SELECT id, title, description FROM feed";
+        String list = "[";
+        try {
+            ResultSet res = st.executeQuery(query);
+           while (res.next()) {
+                if (list.length() > 1) {
+                    list += ",";
+                }
+                list += "{\"Id\":"+res.getString("id")
+                        +",\"Title\":\"" +res.getString("title")
+                        +"\",\"Description\":\""+res.getString("description")+"\"}";
+            }
+            list += "]";
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
