@@ -43,9 +43,7 @@ public class Actions {
                     }
                     descr = descr.substring(0, descr.indexOf("</description>"));
                 }
-                System.out.println(descr);
             }
-            //System.out.println(link+" "+title+" "+descr);
             this.conn.AddRSS(link, title, descr);
             in.close();
         } catch (JSONException e) {
@@ -57,7 +55,7 @@ public class Actions {
         }
     }
 
-    public void GetLink(String id) {
+    public String GetLink(String id) {
         try {
             String link = this.conn.GetLink(id);
             URL rssURL = new URL(link);
@@ -106,12 +104,13 @@ public class Actions {
                 }
             }
             res += "]";
-            System.out.println(res);
             in.close();
+            return res;
         } catch(MalformedURLException e){
             e.printStackTrace();
         } catch(IOException e){
             e.printStackTrace();
         }
+        return null;
     }
 }

@@ -33,7 +33,7 @@ public class RSSHandler implements HttpHandler {
                 split = t.getRequestURI().getPath().split("/");
                 String res;
                 if (split.length > 3) {
-                    res = this.act.conn.GetLink(split[3]);
+                    res = this.act.GetLink(split[3]);
                 } else {
                     res = this.act.conn.Getfeeds();
                 }
