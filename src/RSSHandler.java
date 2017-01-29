@@ -54,7 +54,6 @@ public class RSSHandler implements HttpHandler {
         try {
             t.sendResponseHeaders(code, msg.getBytes().length);
             OutputStream out = this.t.getResponseBody();
-            System.out.println(msg);
             out.write(msg.getBytes());
             out.close();
         } catch (IOException e) {

@@ -47,7 +47,7 @@ public class SQLConnect {
     }
 
     private void initTables() {
-        String query = "CREATE TABLE IF NOT EXISTS feed (id INT NOT NULL AUTO_INCREMENT, title VARCHAR(64), description VARCHAR(255), link VARCHAR(255), PRIMARY KEY (id))";
+        String query = "CREATE TABLE IF NOT EXISTS feed (id INT NOT NULL AUTO_INCREMENT, title TINYTEXT, description TEXT, link VARCHAR(255), PRIMARY KEY (id))";
         try {
             this.st.execute(query);
         } catch (SQLException e) {
