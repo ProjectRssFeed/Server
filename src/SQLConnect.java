@@ -96,9 +96,7 @@ public class SQLConnect {
                 if (list.length() > 1) {
                     list += ",";
                 }
-                list += "{\"Id\":"+res.getString("id")
-                        +",\"Title\":\"" +res.getString("title")
-                        +"\",\"Description\":\""+res.getString("description")+"\"}";
+                list += "{\"Id\":"+res.getString("id")+",\"Title\":\"" +res.getString("title")+"\",\"Description\":\""+res.getString("description")+"\"}";
             }
             list += "]";
             return list;

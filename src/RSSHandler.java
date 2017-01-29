@@ -51,14 +51,11 @@ public class RSSHandler implements HttpHandler {
     }
 
     private void sendResponse(String msg, int code) {
-        int chucksize = 256;
         try {
-            t.sendResponseHeaders(code, msg.length());
+            t.sendResponseHeaders(code, msg.getBytes().length);
             OutputStream out = this.t.getResponseBody();
-            for(int i = 0; i < msg.length(); i += chucksize){
-                byte[] chunk = Arrays.copyOfRange(msg.getBytes(), i, Math.min(msg.length(),i+chucksize));
-                out.write(chunk);
-            }
+            System.out.println(msg);
+            out.write(msg.getBytes());
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
