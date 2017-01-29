@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.util.Arrays;
 
 import static java.lang.System.*;
 
@@ -50,10 +51,14 @@ public class RSSHandler implements HttpHandler {
     }
 
     private void sendResponse(String msg, int code) {
+        int chucksize = 256;
         try {
             t.sendResponseHeaders(code, msg.length());
             OutputStream out = this.t.getResponseBody();
-            out.write(msg.getBytes());
+            for(int i = 0; i < msg.length(); i += chucksize){
+                byte[] chunk = Arrays.copyOfRange(msg.getBytes(), i, Math.min(msg.length(),i+chucksize));
+                out.write(chunk);
+            }
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
